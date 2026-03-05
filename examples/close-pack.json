@@ -1,0 +1,103 @@
+{
+  "type": "close_pack",
+  "version": "aiei/1.0.0",
+  "id": "cp_2026_02_org_acme_ai",
+  "org_id": "org_acme_ai",
+  "period": {
+    "start": "2026-02-01T00:00:00.000Z",
+    "end": "2026-02-28T23:59:59.999Z"
+  },
+  "generated_at": "2026-03-01T00:05:12.000Z",
+
+  "summary": {
+    "total_transactions": 47832,
+    "total_cost_usd": 14283.42,
+    "total_revenue_usd": 48200.00,
+    "net_ai_contribution_usd": 33916.58,
+    "blended_margin": 0.7037,
+    "providers": {
+      "openai": { "calls": 28400, "cost_usd": 9234.20 },
+      "anthropic": { "calls": 16200, "cost_usd": 4102.80 },
+      "google": { "calls": 3232, "cost_usd": 946.42 }
+    },
+    "models": {
+      "gpt-4o": { "calls": 18400, "cost_usd": 8234.20 },
+      "claude-3.5-sonnet": { "calls": 12300, "cost_usd": 3102.80 },
+      "gpt-4o-mini": { "calls": 9800, "cost_usd": 842.30 },
+      "other": { "calls": 7332, "cost_usd": 2104.12 }
+    }
+  },
+
+  "customers": {
+    "total": 340,
+    "profitable": 312,
+    "underwater": 28,
+    "top_margin": { "customer_id": "cust_pied_piper", "margin": 0.821 },
+    "worst_margin": { "customer_id": "cust_umbrella_co", "margin": -0.453 },
+    "total_subsidy_from_underwater": 8940.00
+  },
+
+  "finault_score": {
+    "overall": 64,
+    "grade": "C+",
+    "dimensions": {
+      "allocation": 72,
+      "efficiency": 58,
+      "margin": 61,
+      "governance": 48,
+      "trajectory": 81
+    },
+    "prior_month_score": 59,
+    "trend": "+5"
+  },
+
+  "recommendations": [
+    {
+      "type": "model_optimization",
+      "description": "44% of GPT-4o calls are classification/extraction tasks suitable for GPT-4o-mini",
+      "estimated_savings_monthly": 5180.00,
+      "confidence": "high"
+    },
+    {
+      "type": "pricing_adjustment",
+      "description": "31% of users consume more AI than their plan covers. Usage-based component recommended.",
+      "estimated_recovery_monthly": 11200.00,
+      "confidence": "high"
+    },
+    {
+      "type": "customer_intervention",
+      "description": "3 enterprise customers are significantly underwater. Review pricing or usage limits.",
+      "customers_affected": 3,
+      "monthly_loss": 788.00,
+      "confidence": "confirmed"
+    }
+  ],
+
+  "compliance": {
+    "eu_ai_act_article_12": {
+      "status": "generating",
+      "transactions_logged": 47832,
+      "coverage": 1.0
+    },
+    "soc2_evidence": {
+      "status": "available",
+      "controls_documented": ["budget_enforcement", "model_governance", "access_control"]
+    }
+  },
+
+  "chain": {
+    "first_transaction": "01961a01-0001-7f8a-b4e1-first",
+    "last_transaction": "01961a2f-7d3e-7f8a-b4e1-9c2d3f4a5b6c",
+    "chain_depth": 47832,
+    "chain_integrity": "verified",
+    "prior_close_pack_hash": "cp_2026_01_hash_xyz789"
+  },
+
+  "proof": {
+    "hash": "close_pack_feb_2026_hash_a1b2c3d4e5f6",
+    "prior_hash": "cp_2026_01_hash_xyz789",
+    "signature": "hmac_close_pack_signature_feb2026",
+    "algorithm": "sha256+hmac-sha256",
+    "sealed_at": "2026-03-01T00:05:12.100Z"
+  }
+}

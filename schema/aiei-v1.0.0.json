@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://finault.ai/schemas/aiei/v1.0.0",
+  "title": "AI Economic Identity Envelope (AIEI) v1.0.0",
+  "description": "A standard economic identity for every AI transaction. Defines who initiated the call, what it consumed, what it's worth, what rules govern it, and cryptographic proof of all fields. Published by Finault under MIT license.",
+  "type": "object",
+  "required": ["version", "id", "timestamp", "who", "what", "proof"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "aiei/1.0.0",
+      "description": "Schema version. Always 'aiei/1.0.0' for this release."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this transaction. UUIDv7 recommended (time-sortable)."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of transaction creation."
+    },
+
+    "who": {
+      "type": "object",
+      "description": "The economic actors in this transaction. Who initiated it, who it serves, and the provenance chain.",
+      "required": ["org_id"],
+      "properties": {
+        "org_id": {
+          "type": "string",
+          "description": "Organization that owns this transaction."
+        },
+        "customer_id": {
+          "type": "string",
+          "description": "The end customer this call serves. Maps to billing/CRM customer ID."
+        },
+        "user_id": {
+          "type": "string",
+          "description": "The specific user within the customer account."
+        },
+        "service_id": {
+          "type": "string",
+          "description": "The application or service that made this call."
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "If an AI agent initiated this call, its identifier."
+        },
+        "session_id": {
+          "type": "string",
+          "description": "Groups related transactions into a single interaction or workflow."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "If this transaction is part of a chain (agent workflow), the ID of the parent transaction. Creates a DAG of economic causation."
+        },
+        "feature": {
+          "type": "string",
+          "description": "The product feature that triggered this call (e.g., 'smart-search', 'doc-analysis', 'chat')."
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["production", "staging", "development", "test"],
+          "description": "Deployment environment. Only 'production' transactions count toward economic calculations."
+        }
+      }
+    },
+
+    "what": {
+      "type": "object",
+      "description": "What this transaction consumed. The economic inputs.",
+      "required": ["provider", "model"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "AI provider (e.g., 'openai', 'anthropic', 'google', 'azure', 'bedrock')."
+        },
+        "model": {
+          "type": "string",
+          "description": "Model identifier as returned by the provider (e.g., 'gpt-4o-2024-08-06')."
+        },
+        "model_class": {
+          "type": "string",
+          "enum": ["frontier", "standard", "efficient", "embedding", "fine-tuned", "custom"],
+          "description": "Normalized model tier for cross-provider comparison."
+        },
+        "region": {
+          "type": "string",
+          "description": "Deployment region if relevant (e.g., 'us-east-1')."
+        },
+        "tokens_in": {
+          "type": "integer",
+          "description": "Input/prompt tokens consumed."
+        },
+        "tokens_out": {
+          "type": "integer",
+          "description": "Output/completion tokens consumed."
+        },
+        "tokens_cached": {
+          "type": "integer",
+          "description": "Tokens served from cache (prompt caching)."
+        },
+        "cost_usd": {
+          "type": "number",
+          "description": "Computed cost in USD. Uses model pricing at time of transaction."
+        },
+        "latency_ms": {
+          "type": "integer",
+          "description": "End-to-end latency in milliseconds."
+        },
+        "request_type": {
+          "type": "string",
+          "enum": ["chat", "completion", "embedding", "fine-tune", "batch", "image", "audio", "tool-call", "agent-step"],
+          "description": "The type of AI operation."
+        },
+        "chain_position": {
+          "type": "object",
+          "description": "Position within a multi-step workflow.",
+          "properties": {
+            "step": { "type": "integer", "description": "Current step number (1-indexed)." },
+            "total_steps": { "type": "integer", "description": "Total steps if known." },
+            "cumulative_cost_usd": { "type": "number", "description": "Running cost for the entire chain/session." }
+          }
+        }
+      }
+    },
+
+    "worth": {
+      "type": "object",
+      "description": "The economic value side. What this transaction is worth in revenue terms. This is the field that transforms cost tracking into economic intelligence.",
+      "properties": {
+        "customer_revenue_monthly": {
+          "type": "number",
+          "description": "What this customer pays per month (from Stripe, billing system, or manual entry)."
+        },
+        "customer_plan": {
+          "type": "string",
+          "description": "The pricing plan/tier this customer is on."
+        },
+        "revenue_per_unit": {
+          "type": "number",
+          "description": "If usage-based pricing: revenue attributed to this specific transaction."
+        },
+        "margin_current": {
+          "type": "number",
+          "description": "Current margin for this customer this period. (revenue - cumulative_cost) / revenue. Range: -inf to 1.0."
+        },
+        "margin_after": {
+          "type": "number",
+          "description": "Projected margin after this transaction. If this number is negative, the customer is underwater."
+        },
+        "cost_to_serve_cumulative": {
+          "type": "number",
+          "description": "Total AI cost for this customer this billing period."
+        },
+        "underwater": {
+          "type": "boolean",
+          "description": "True if cumulative AI cost exceeds customer revenue this period."
+        }
+      }
+    },
+
+    "rules": {
+      "type": "object",
+      "description": "Governance parameters. What rules were evaluated and enforced on this transaction.",
+      "properties": {
+        "budget_id": {
+          "type": "string",
+          "description": "The budget this transaction counts against."
+        },
+        "budget_remaining_usd": {
+          "type": "number",
+          "description": "Budget remaining after this transaction."
+        },
+        "budget_utilization": {
+          "type": "number",
+          "description": "Percentage of budget consumed (0.0 to 1.0+)."
+        },
+        "margin_floor": {
+          "type": "number",
+          "description": "Minimum acceptable margin. If margin_after < margin_floor, routing rules may apply."
+        },
+        "model_was_downgraded": {
+          "type": "boolean",
+          "description": "True if the original model request was routed to a cheaper alternative by margin/budget rules."
+        },
+        "original_model": {
+          "type": "string",
+          "description": "If downgraded, what model was originally requested."
+        },
+        "compliance_class": {
+          "type": "string",
+          "enum": ["standard", "high-risk", "prohibited", "eu-ai-act-high-risk", "sb205-consequential", "hipaa", "pci"],
+          "description": "Regulatory classification of this AI usage."
+        },
+        "pii_detected": {
+          "type": "boolean",
+          "description": "Whether PII was detected in the input."
+        },
+        "human_review_required": {
+          "type": "boolean",
+          "description": "Whether this transaction's output requires human review per policy."
+        },
+        "actions_taken": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["none", "model-downgrade", "budget-throttle", "budget-block", "margin-route", "alert-fired", "human-escalation", "pii-redacted"]
+          },
+          "description": "What enforcement actions were applied to this transaction."
+        }
+      }
+    },
+
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic attestation. Makes this identity tamper-evident and chain-linkable.",
+      "required": ["hash", "algorithm"],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 hash of the canonical JSON representation of [who, what, worth, rules] fields."
+        },
+        "prior_hash": {
+          "type": "string",
+          "description": "Hash of the previous transaction in the chain. Creates temporal ordering."
+        },
+        "signature": {
+          "type": "string",
+          "description": "HMAC-SHA256 signature using the org's signing key. Proves identity of the sealer."
+        },
+        "algorithm": {
+          "type": "string",
+          "const": "sha256+hmac-sha256",
+          "description": "Hash and signature algorithms used."
+        },
+        "chain_depth": {
+          "type": "integer",
+          "description": "Number of transactions in the chain. Increments with each sealed transaction."
+        },
+        "sealed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the proof was generated."
+        }
+      }
+    },
+
+    "extensions": {
+      "type": "object",
+      "description": "Vendor or org-specific fields. The spec is extensible — put custom metadata here.",
+      "additionalProperties": true
+    }
+  }
+}

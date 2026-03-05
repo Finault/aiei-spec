@@ -1,0 +1,59 @@
+{
+  "version": "aiei/1.0.0",
+  "id": "01961a2f-7d3e-7f8a-b4e1-9c2d3f4a5b6c",
+  "timestamp": "2026-03-04T14:23:01.847Z",
+  "who": {
+    "org_id": "org_acme_ai",
+    "customer_id": "cust_globex_corp",
+    "user_id": "user_jane_doe",
+    "service_id": "svc_contract_review",
+    "agent_id": "agent_doc_analyzer",
+    "session_id": "sess_8f2a1b3c",
+    "parent_id": null,
+    "feature": "contract-review",
+    "environment": "production"
+  },
+  "what": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-20250514",
+    "model_class": "standard",
+    "tokens_in": 4280,
+    "tokens_out": 1650,
+    "tokens_cached": 0,
+    "cost_usd": 0.0231,
+    "latency_ms": 1847,
+    "request_type": "chat",
+    "chain_position": {
+      "step": 3,
+      "total_steps": 5,
+      "cumulative_cost_usd": 0.0892
+    }
+  },
+  "worth": {
+    "customer_revenue_monthly": 499.00,
+    "customer_plan": "professional",
+    "margin_current": 0.7204,
+    "margin_after": 0.7158,
+    "cost_to_serve_cumulative": 142.30,
+    "underwater": false
+  },
+  "rules": {
+    "budget_id": "budget_globex_q1",
+    "budget_remaining_usd": 357.70,
+    "budget_utilization": 0.284,
+    "margin_floor": 0.40,
+    "model_was_downgraded": false,
+    "compliance_class": "standard",
+    "pii_detected": false,
+    "human_review_required": false,
+    "actions_taken": ["none"]
+  },
+  "proof": {
+    "hash": "7f2a9b4e1c3d5f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4b6c8d0e2f4",
+    "prior_hash": "3a1b5c7d9e0f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2",
+    "signature": "hmac_9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e",
+    "algorithm": "sha256+hmac-sha256",
+    "chain_depth": 4729,
+    "sealed_at": "2026-03-04T14:23:01.892Z"
+  }
+}

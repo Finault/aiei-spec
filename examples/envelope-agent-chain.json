@@ -1,0 +1,162 @@
+{
+  "_comment": "This example shows 3 steps of a 5-step agent workflow analyzing a legal contract. Each step has a parent_id linking to the task initiation, and chain_position tracking cumulative economics.",
+
+  "steps": [
+    {
+      "version": "aiei/1.0.0",
+      "id": "01961a2f-0001-7f8a-b4e1-step1",
+      "timestamp": "2026-03-04T14:22:58.100Z",
+      "who": {
+        "org_id": "org_acme_ai",
+        "customer_id": "cust_globex_corp",
+        "user_id": "user_jane_doe",
+        "agent_id": "agent_doc_analyzer",
+        "session_id": "sess_8f2a1b3c",
+        "parent_id": null,
+        "feature": "contract-review",
+        "environment": "production"
+      },
+      "what": {
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-20250514",
+        "model_class": "standard",
+        "tokens_in": 8200,
+        "tokens_out": 420,
+        "cost_usd": 0.0309,
+        "latency_ms": 2100,
+        "request_type": "agent-step",
+        "chain_position": {
+          "step": 1,
+          "total_steps": 5,
+          "cumulative_cost_usd": 0.0309
+        }
+      },
+      "worth": {
+        "customer_revenue_monthly": 499.00,
+        "margin_after": 0.7220,
+        "cost_to_serve_cumulative": 141.98,
+        "underwater": false
+      },
+      "rules": {
+        "budget_remaining_usd": 358.02,
+        "margin_floor": 0.40,
+        "model_was_downgraded": false,
+        "actions_taken": ["none"]
+      },
+      "proof": {
+        "hash": "step1_hash_abc123",
+        "prior_hash": "previous_transaction_hash",
+        "algorithm": "sha256+hmac-sha256",
+        "chain_depth": 4727,
+        "sealed_at": "2026-03-04T14:22:58.150Z"
+      }
+    },
+    {
+      "version": "aiei/1.0.0",
+      "id": "01961a2f-0002-7f8a-b4e1-step2",
+      "timestamp": "2026-03-04T14:23:00.310Z",
+      "who": {
+        "org_id": "org_acme_ai",
+        "customer_id": "cust_globex_corp",
+        "user_id": "user_jane_doe",
+        "agent_id": "agent_doc_analyzer",
+        "session_id": "sess_8f2a1b3c",
+        "parent_id": "01961a2f-0001-7f8a-b4e1-step1",
+        "feature": "contract-review",
+        "environment": "production"
+      },
+      "what": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001",
+        "model_class": "efficient",
+        "tokens_in": 3100,
+        "tokens_out": 890,
+        "cost_usd": 0.0060,
+        "latency_ms": 640,
+        "request_type": "agent-step",
+        "chain_position": {
+          "step": 2,
+          "total_steps": 5,
+          "cumulative_cost_usd": 0.0369
+        }
+      },
+      "worth": {
+        "customer_revenue_monthly": 499.00,
+        "margin_after": 0.7208,
+        "cost_to_serve_cumulative": 142.04,
+        "underwater": false
+      },
+      "rules": {
+        "budget_remaining_usd": 357.96,
+        "margin_floor": 0.40,
+        "model_was_downgraded": false,
+        "actions_taken": ["none"]
+      },
+      "proof": {
+        "hash": "step2_hash_def456",
+        "prior_hash": "step1_hash_abc123",
+        "algorithm": "sha256+hmac-sha256",
+        "chain_depth": 4728,
+        "sealed_at": "2026-03-04T14:23:00.360Z"
+      }
+    },
+    {
+      "version": "aiei/1.0.0",
+      "id": "01961a2f-0003-7f8a-b4e1-step3",
+      "timestamp": "2026-03-04T14:23:01.847Z",
+      "who": {
+        "org_id": "org_acme_ai",
+        "customer_id": "cust_globex_corp",
+        "user_id": "user_jane_doe",
+        "agent_id": "agent_doc_analyzer",
+        "session_id": "sess_8f2a1b3c",
+        "parent_id": "01961a2f-0002-7f8a-b4e1-step2",
+        "feature": "contract-review",
+        "environment": "production"
+      },
+      "what": {
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-20250514",
+        "model_class": "standard",
+        "tokens_in": 4280,
+        "tokens_out": 1650,
+        "cost_usd": 0.0231,
+        "latency_ms": 1847,
+        "request_type": "agent-step",
+        "chain_position": {
+          "step": 3,
+          "total_steps": 5,
+          "cumulative_cost_usd": 0.0600
+        }
+      },
+      "worth": {
+        "customer_revenue_monthly": 499.00,
+        "margin_after": 0.7162,
+        "cost_to_serve_cumulative": 142.27,
+        "underwater": false
+      },
+      "rules": {
+        "budget_remaining_usd": 357.73,
+        "margin_floor": 0.40,
+        "model_was_downgraded": false,
+        "actions_taken": ["none"]
+      },
+      "proof": {
+        "hash": "step3_hash_ghi789",
+        "prior_hash": "step2_hash_def456",
+        "algorithm": "sha256+hmac-sha256",
+        "chain_depth": 4729,
+        "sealed_at": "2026-03-04T14:23:01.892Z"
+      }
+    }
+  ],
+
+  "_summary": {
+    "session": "sess_8f2a1b3c",
+    "total_steps_completed": 3,
+    "total_steps_planned": 5,
+    "cumulative_cost": 0.0600,
+    "models_used": ["claude-sonnet-4-20250514", "claude-haiku-4-5-20251001"],
+    "note": "Agent chose Haiku for step 2 (simple extraction) and Sonnet for steps 1 and 3 (complex analysis). Economically intelligent model selection."
+  }
+}
